@@ -262,6 +262,9 @@ function printTokenContractDetails() {
     console.log("RESULT: token.contributedUsd=" + contract.contributedUsd());
     console.log("RESULT: token.whitelist=" + contract.whitelist());
     console.log("RESULT: token.picopsCertifier=" + contract.picopsCertifier());
+    console.log("RESULT: token.addressCanContribute(0xa44a08d3f6933c69212114bb66e2df1813651844) (WL)=" + contract.addressCanContribute("0xa44a08d3f6933c69212114bb66e2df1813651844"));
+    console.log("RESULT: token.addressCanContribute(0xa55a151eb00fded1634d27d1127b4be4627079ea) (PICOPS)=" + contract.addressCanContribute("0xa55a151eb00fded1634d27d1127b4be4627079ea"));
+    console.log("RESULT: token.addressCanContribute(0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9) (not registered)=" + contract.addressCanContribute("0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9"));
 
     var latestBlock = eth.blockNumber;
     var i;
