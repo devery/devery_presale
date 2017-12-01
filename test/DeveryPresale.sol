@@ -7,15 +7,28 @@ pragma solidity ^0.4.18;
 // Symbol      : PREVE
 // Name        : Presale EVE Tokens
 // Total supply: Minted
-// Decimals    : 0
-//
-// TODO:
-// 1. Whitelist using contract and PICOPS
+// Decimals    : 18
 //
 // Enjoy.
 //
 // (c) BokkyPooBah / Bok Consulting Pty Ltd for Devery 2017. The MIT Licence.
 // ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
+// Devery Presale Whitelist Interface
+// ----------------------------------------------------------------------------
+contract DeveryPresaleWhitelist {
+    mapping(address => uint) public whitelist;
+}
+
+
+// ----------------------------------------------------------------------------
+// Parity PICOPS Whitelist Interface
+// ----------------------------------------------------------------------------
+contract PICOPSCertifier {
+    function certified(address) public constant returns (bool);
+}
 
 
 // ----------------------------------------------------------------------------
@@ -173,7 +186,7 @@ contract ERC20Token is ERC20Interface, Owned, SafeMath {
 contract DeveryPresale is ERC20Token {
     address public wallet;
     // new Date(1512867600 * 1000).toString() => "Sun, 10 Dec 2017 12:00:00 AEDT"
-    uint public START_DATE = 1512138118; // Fri  1 Dec 2017 14:21:58 UTC
+    uint public START_DATE = 1512147765; // Fri  1 Dec 2017 17:02:45 UTC
     bool public closed;
     uint public ethMinContribution = 20 ether;
     uint public usdCap = 2000000;
@@ -181,10 +194,14 @@ contract DeveryPresale is ERC20Token {
     uint public usdPerKEther = 444050;
     uint public contributedEth;
     uint public contributedUsd;
+    DeveryPresaleWhitelist public whitelist;
+    PICOPSCertifier public picopsCertifier;
 
     event EthMinContributionUpdated(uint oldEthMinContribution, uint newEthMinContribution);
     event UsdCapUpdated(uint oldUsdCap, uint newUsdCap);
     event UsdPerKEtherUpdated(uint oldUsdPerKEther, uint newUsdPerKEther);
+    event WhitelistUpdated(address indexed oldWhitelist, address indexed newWhitelist);
+    event PICOPSCertifierUpdated(address indexed oldPICOPSCertifier, address indexed newPICOPSCertifier);
     event Contributed(address indexed addr, uint ethAmount, uint ethRefund, uint usdAmount, uint contributedEth, uint contributedUsd);
 
     function DeveryPresale(address _wallet) public ERC20Token("PREVE", "Presale EVE Tokens", 18) {
@@ -206,6 +223,16 @@ contract DeveryPresale is ERC20Token {
         UsdPerKEtherUpdated(usdPerKEther, _usdPerKEther);
         usdPerKEther = _usdPerKEther;
     }
+    function setWhitelist(address _whitelist) public onlyOwner {
+        // require(now <= START_DATE);
+        WhitelistUpdated(address(whitelist), _whitelist);
+        whitelist = DeveryPresaleWhitelist(_whitelist);
+    }
+    function setPICOPSCertifier(address _picopsCertifier) public onlyOwner {
+        // require(now <= START_DATE);
+        PICOPSCertifierUpdated(address(picopsCertifier), _picopsCertifier);
+        picopsCertifier = PICOPSCertifier(_picopsCertifier);
+    }
     function ethCap() public view returns (uint) {
         return usdCap * 10**uint(3 + 18) / usdPerKEther;
     }
@@ -217,6 +244,7 @@ contract DeveryPresale is ERC20Token {
     function () public payable {
         require(now >= START_DATE);
         require(!closed);
+        require(whitelist.whitelist(msg.sender) > 0 || picopsCertifier.certified(msg.sender));
         require(msg.value >= ethMinContribution);
         uint ethAmount = msg.value;
         uint ethRefund = 0;

@@ -11,15 +11,15 @@ var accountNames = {};
 addAccount(eth.accounts[0], "Account #0 - Miner");
 addAccount(eth.accounts[1], "Account #1 - Contract Owner");
 addAccount(eth.accounts[2], "Account #2 - Wallet");
-addAccount(eth.accounts[3], "Account #3");
-addAccount(eth.accounts[4], "Account #4");
-addAccount(eth.accounts[5], "Account #5");
-addAccount(eth.accounts[6], "Account #6");
+addAccount(eth.accounts[3], "Account #3 - Devery Whitelisted");
+addAccount(eth.accounts[4], "Account #4 - PICOPS Certified");
+addAccount(eth.accounts[5], "Account #5 - Devery Whitelisted");
+addAccount(eth.accounts[6], "Account #6 - Not whitelisted or certified");
 addAccount(eth.accounts[7], "Account #7");
 addAccount(eth.accounts[8], "Account #8");
 addAccount(eth.accounts[9], "Account #9");
-addAccount(eth.accounts[10], "Account #10 - Owner #1");
-addAccount(eth.accounts[11], "Account #11 - Owner #2");
+addAccount(eth.accounts[10], "Account #10");
+addAccount(eth.accounts[11], "Account #11");
 
 
 var minerAccount = eth.accounts[0];
@@ -260,6 +260,8 @@ function printTokenContractDetails() {
     console.log("RESULT: token.ethCap=" + contract.ethCap() + " " + contract.ethCap().shift(-18) + " ETH");
     console.log("RESULT: token.contributedEth=" + contract.contributedEth() + " " + contract.contributedEth().shift(-18) + " ETH");
     console.log("RESULT: token.contributedUsd=" + contract.contributedUsd());
+    console.log("RESULT: token.whitelist=" + contract.whitelist());
+    console.log("RESULT: token.picopsCertifier=" + contract.picopsCertifier());
 
     var latestBlock = eth.blockNumber;
     var i;
@@ -305,7 +307,21 @@ function printTokenContractDetails() {
       console.log("RESULT: UsdPerKEtherUpdated " + i++ + " #" + result.blockNumber + " " + JSON.stringify(result.args));
     });
     usdPerKEtherUpdatedEvents.stopWatching();
-    
+
+    var whitelistUpdatedEvents = contract.WhitelistUpdated({}, { fromBlock: tokenFromBlock, toBlock: latestBlock });
+    i = 0;
+    whitelistUpdatedEvents.watch(function (error, result) {
+      console.log("RESULT: WhitelistUpdated " + i++ + " #" + result.blockNumber + " " + JSON.stringify(result.args));
+    });
+    whitelistUpdatedEvents.stopWatching();
+
+    var picopsCertifierUpdatedEvents = contract.PICOPSCertifierUpdated({}, { fromBlock: tokenFromBlock, toBlock: latestBlock });
+    i = 0;
+    picopsCertifierUpdatedEvents.watch(function (error, result) {
+      console.log("RESULT: PICOPSCertifierUpdated " + i++ + " #" + result.blockNumber + " " + JSON.stringify(result.args));
+    });
+    picopsCertifierUpdatedEvents.stopWatching();
+
     var contributedEvents = contract.Contributed({}, { fromBlock: tokenFromBlock, toBlock: latestBlock });
     i = 0;
     contributedEvents.watch(function (error, result) {
@@ -332,3 +348,60 @@ function printTokenContractDetails() {
     tokenFromBlock = latestBlock + 1;
   }
 }
+
+
+// -----------------------------------------------------------------------------
+// Whitelist Contract
+// -----------------------------------------------------------------------------
+var whitelistContractAddress = null;
+var whitelistContractAbi = null;
+
+function addWhitelistContractAddressAndAbi(address, whitelistAbi) {
+  whitelistContractAddress = address;
+  whitelistContractAbi = whitelistAbi;
+}
+
+var whitelistFromBlock = 0;
+function printWhitelistContractDetails() {
+  console.log("RESULT: whitelistContractAddress=" + whitelistContractAddress);
+  if (whitelistContractAddress != null && whitelistContractAbi != null) {
+    var contract = eth.contract(whitelistContractAbi).at(whitelistContractAddress);
+    console.log("RESULT: whitelist.owner=" + contract.owner());
+    console.log("RESULT: whitelist.newOwner=" + contract.newOwner());
+    console.log("RESULT: whitelist.sealed=" + contract.sealed());
+
+    var latestBlock = eth.blockNumber;
+    var i;
+
+    var ownershipTransferredEvents = contract.OwnershipTransferred({}, { fromBlock: whitelistFromBlock, toBlock: latestBlock });
+    i = 0;
+    ownershipTransferredEvents.watch(function (error, result) {
+      console.log("RESULT: OwnershipTransferred " + i++ + " #" + result.blockNumber + " " + JSON.stringify(result.args));
+    });
+    ownershipTransferredEvents.stopWatching();
+
+    var adminAddedEvents = contract.AdminAdded({}, { fromBlock: whitelistFromBlock, toBlock: latestBlock });
+    i = 0;
+    adminAddedEvents.watch(function (error, result) {
+      console.log("RESULT: AdminAdded " + i++ + " #" + result.blockNumber + " " + JSON.stringify(result.args));
+    });
+    adminAddedEvents.stopWatching();
+
+    var adminRemovedEvents = contract.AdminRemoved({}, { fromBlock: whitelistFromBlock, toBlock: latestBlock });
+    i = 0;
+    adminRemovedEvents.watch(function (error, result) {
+      console.log("RESULT: AdminRemoved " + i++ + " #" + result.blockNumber + " " + JSON.stringify(result.args));
+    });
+    adminRemovedEvents.stopWatching();
+
+    var whitelistedEvents = contract.Whitelisted({}, { fromBlock: whitelistFromBlock, toBlock: latestBlock });
+    i = 0;
+    whitelistedEvents.watch(function (error, result) {
+      console.log("RESULT: Whitelisted " + i++ + " #" + result.blockNumber + " " + JSON.stringify(result.args));
+    });
+    whitelistedEvents.stopWatching();
+
+    whitelistFromBlock = latestBlock + 1;
+  }
+}
+

@@ -12,6 +12,10 @@ PASSWORD=`grep ^PASSWORD= settings.txt | sed "s/^.*=//"`
 
 SOURCEDIR=`grep ^SOURCEDIR= settings.txt | sed "s/^.*=//"`
 
+WHITELISTSOL=`grep ^WHITELISTSOL= settings.txt | sed "s/^.*=//"`
+WHITELISTJS=`grep ^WHITELISTJS= settings.txt | sed "s/^.*=//"`
+PICOPSCERTIFIERSOL=`grep ^PICOPSCERTIFIERSOL= settings.txt | sed "s/^.*=//"`
+PICOPSCERTIFIERJS=`grep ^PICOPSCERTIFIERJS= settings.txt | sed "s/^.*=//"`
 TOKENSOL=`grep ^TOKENSOL= settings.txt | sed "s/^.*=//"`
 TOKENJS=`grep ^TOKENJS= settings.txt | sed "s/^.*=//"`
 
@@ -31,6 +35,10 @@ printf "MODE               = '$MODE'\n" | tee $TEST1OUTPUT
 printf "GETHATTACHPOINT    = '$GETHATTACHPOINT'\n" | tee -a $TEST1OUTPUT
 printf "PASSWORD           = '$PASSWORD'\n" | tee -a $TEST1OUTPUT
 printf "SOURCEDIR          = '$SOURCEDIR'\n" | tee -a $TEST1OUTPUT
+printf "WHITELISTSOL       = '$WHITELISTSOL'\n" | tee -a $TEST1OUTPUT
+printf "WHITELISTJS        = '$WHITELISTJS'\n" | tee -a $TEST1OUTPUT
+printf "PICOPSCERTIFIERSOL = '$PICOPSCERTIFIERSOL'\n" | tee -a $TEST1OUTPUT
+printf "PICOPSCERTIFIERJS  = '$PICOPSCERTIFIERJS'\n" | tee -a $TEST1OUTPUT
 printf "TOKENSOL           = '$TOKENSOL'\n" | tee -a $TEST1OUTPUT
 printf "TOKENJS            = '$TOKENJS'\n" | tee -a $TEST1OUTPUT
 printf "DEPLOYMENTDATA     = '$DEPLOYMENTDATA'\n" | tee -a $TEST1OUTPUT
@@ -42,10 +50,20 @@ printf "START_DATE         = '$START_DATE' '$START_DATE_S'\n" | tee -a $TEST1OUT
 
 # Make copy of SOL file and modify start and end times ---
 # `cp modifiedContracts/SnipCoin.sol .`
+`cp $SOURCEDIR/$WHITELISTSOL .`
+`cp $SOURCEDIR/$PICOPSCERTIFIERSOL .`
 `cp $SOURCEDIR/$TOKENSOL .`
 
 # --- Modify parameters ---
 `perl -pi -e "s/START_DATE \= 1512867600;.*$/START_DATE \= $START_DATE; \/\/ $START_DATE_S/" $TOKENSOL`
+
+DIFFS1=`diff $SOURCEDIR/$WHITELISTSOL $WHITELISTSOL`
+echo "--- Differences $SOURCEDIR/$WHITELISTSOL $WHITELISTSOL ---" | tee -a $TEST1OUTPUT
+echo "$DIFFS1" | tee -a $TEST1OUTPUT
+
+DIFFS1=`diff $SOURCEDIR/$PICOPSCERTIFIERSOL $PICOPSCERTIFIERSOL`
+echo "--- Differences $SOURCEDIR/$PICOPSCERTIFIERSOL $PICOPSCERTIFIERSOL ---" | tee -a $TEST1OUTPUT
+echo "$DIFFS1" | tee -a $TEST1OUTPUT
 
 DIFFS1=`diff $SOURCEDIR/$TOKENSOL $TOKENSOL`
 echo "--- Differences $SOURCEDIR/$TOKENSOL $TOKENSOL ---" | tee -a $TEST1OUTPUT
@@ -53,21 +71,108 @@ echo "$DIFFS1" | tee -a $TEST1OUTPUT
 
 solc_0.4.18 --version | tee -a $TEST1OUTPUT
 
+echo "var whitelistOutput=`solc_0.4.18 --optimize --pretty-json --combined-json abi,bin,interface $WHITELISTSOL`;" > $WHITELISTJS
+echo "var picopsCertifierOutput=`solc_0.4.18 --optimize --pretty-json --combined-json abi,bin,interface $PICOPSCERTIFIERSOL`;" > $PICOPSCERTIFIERJS
 echo "var tokenOutput=`solc_0.4.18 --optimize --pretty-json --combined-json abi,bin,interface $TOKENSOL`;" > $TOKENJS
 
 
 geth --verbosity 3 attach $GETHATTACHPOINT << EOF | tee -a $TEST1OUTPUT
+loadScript("$WHITELISTJS");
+loadScript("$PICOPSCERTIFIERJS");
 loadScript("$TOKENJS");
 loadScript("functions.js");
 
+var whitelistAbi = JSON.parse(whitelistOutput.contracts["$WHITELISTSOL:DeveryPresaleWhitelist"].abi);
+var whitelistBin = "0x" + whitelistOutput.contracts["$WHITELISTSOL:DeveryPresaleWhitelist"].bin;
+var picopsCertifierAbi = JSON.parse(picopsCertifierOutput.contracts["$PICOPSCERTIFIERSOL:TestPICOPSCertifier"].abi);
+var picopsCertifierBin = "0x" + picopsCertifierOutput.contracts["$PICOPSCERTIFIERSOL:TestPICOPSCertifier"].bin;
 var tokenAbi = JSON.parse(tokenOutput.contracts["$TOKENSOL:DeveryPresale"].abi);
 var tokenBin = "0x" + tokenOutput.contracts["$TOKENSOL:DeveryPresale"].bin;
 
+// console.log("DATA: whitelistAbi=" + JSON.stringify(whitelistAbi));
+// console.log("DATA: whitelistBin=" + JSON.stringify(whitelistBin));
+// console.log("DATA: picopsCertifierAbi=" + JSON.stringify(picopsCertifierAbi));
+// console.log("DATA: picopsCertifierBin=" + JSON.stringify(picopsCertifierBin));
 // console.log("DATA: tokenAbi=" + JSON.stringify(tokenAbi));
 // console.log("DATA: tokenBin=" + JSON.stringify(tokenBin));
 
+
 unlockAccounts("$PASSWORD");
 printBalances();
+console.log("RESULT: ");
+
+
+// -----------------------------------------------------------------------------
+var whitelistMessage = "Deploy Devery Whitelist Contract";
+// -----------------------------------------------------------------------------
+console.log("RESULT: " + whitelistMessage);
+var whitelistContract = web3.eth.contract(whitelistAbi);
+// console.log(JSON.stringify(whitelistContract));
+var whitelistTx = null;
+var whitelistAddress = null;
+var whitelist = whitelistContract.new({from: contractOwnerAccount, data: whitelistBin, gas: 6000000, gasPrice: defaultGasPrice},
+  function(e, contract) {
+    if (!e) {
+      if (!contract.address) {
+        whitelistTx = contract.transactionHash;
+      } else {
+        whitelistAddress = contract.address;
+        addAccount(whitelistAddress, "Devery Whitelist");
+        addWhitelistContractAddressAndAbi(whitelistAddress, whitelistAbi);
+        console.log("DATA: whitelistAddress=" + whitelistAddress);
+      }
+    }
+  }
+);
+while (txpool.status.pending > 0) {
+}
+printBalances();
+failIfTxStatusError(whitelistTx, whitelistMessage);
+printTxData("whitelistAddress=" + whitelistAddress, whitelistTx);
+printWhitelistContractDetails();
+console.log("RESULT: ");
+
+
+// -----------------------------------------------------------------------------
+var whitelistAccounts_Message = "Whitelist Accounts";
+// -----------------------------------------------------------------------------
+console.log("RESULT: " + whitelistAccounts_Message);
+var whitelistAccounts_1Tx = whitelist.multiAdd([account3, account5], [1, 1], {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+while (txpool.status.pending > 0) {
+}
+printBalances();
+failIfTxStatusError(whitelistAccounts_1Tx, whitelistAccounts_Message + " - multiAdd([account3, account4, account5], [1, 1, 1])");
+printTxData("whitelistAccounts_1Tx", whitelistAccounts_1Tx);
+printWhitelistContractDetails();
+console.log("RESULT: ");
+
+
+// -----------------------------------------------------------------------------
+var picopsCertifierMessage = "Deploy Test PICOPS Certifier Contract";
+// -----------------------------------------------------------------------------
+console.log("RESULT: " + picopsCertifierMessage);
+var picopsCertifierContract = web3.eth.contract(picopsCertifierAbi);
+// console.log(JSON.stringify(picopsCertifierContract));
+var picopsCertifierTx = null;
+var picopsCertifierAddress = null;
+var picopsCertifier = picopsCertifierContract.new({from: contractOwnerAccount, data: picopsCertifierBin, gas: 6000000, gasPrice: defaultGasPrice},
+  function(e, contract) {
+    if (!e) {
+      if (!contract.address) {
+        picopsCertifierTx = contract.transactionHash;
+      } else {
+        picopsCertifierAddress = contract.address;
+        addAccount(picopsCertifierAddress, "Test PICOPS Certifier");
+        console.log("DATA: picopsCertifierAddress=" + picopsCertifierAddress);
+      }
+    }
+  }
+);
+while (txpool.status.pending > 0) {
+}
+printBalances();
+failIfTxStatusError(picopsCertifierTx, picopsCertifierMessage);
+printTxData("picopsCertifierAddress=" + picopsCertifierAddress, picopsCertifierTx);
 console.log("RESULT: ");
 
 
@@ -102,6 +207,32 @@ printTokenContractDetails();
 console.log("RESULT: ");
 
 
+// -----------------------------------------------------------------------------
+var setTokenParameters_Message = "Set Token Contract Parameters";
+// -----------------------------------------------------------------------------
+console.log("RESULT: " + setTokenParameters_Message);
+var setTokenParameters_1Tx = token.setEthMinContribution(web3.toWei(10, "ether"), {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+var setTokenParameters_2Tx = token.setUsdCap(2200000, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+var setTokenParameters_3Tx = token.setUsdPerKEther(444444, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+var setTokenParameters_4Tx = token.setWhitelist(whitelistAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+var setTokenParameters_5Tx = token.setPICOPSCertifier(picopsCertifierAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+while (txpool.status.pending > 0) {
+}
+printBalances();
+failIfTxStatusError(setTokenParameters_1Tx, setTokenParameters_Message + " - token.setEthMinContribution(10 ETH)");
+failIfTxStatusError(setTokenParameters_2Tx, setTokenParameters_Message + " - token.setUsdCap(2,200,000)");
+failIfTxStatusError(setTokenParameters_3Tx, setTokenParameters_Message + " - token.setUsdPerKEther(444,444)");
+failIfTxStatusError(setTokenParameters_4Tx, setTokenParameters_Message + " - token.setWhitelist(whitelistAddress)");
+failIfTxStatusError(setTokenParameters_5Tx, setTokenParameters_Message + " - token.setPICOPSCertifier(picopsCertifierAddress)");
+printTxData("setTokenParameters_1Tx", setTokenParameters_1Tx);
+printTxData("setTokenParameters_2Tx", setTokenParameters_2Tx);
+printTxData("setTokenParameters_3Tx", setTokenParameters_3Tx);
+printTxData("setTokenParameters_4Tx", setTokenParameters_4Tx);
+printTxData("setTokenParameters_5Tx", setTokenParameters_5Tx);
+printTokenContractDetails();
+console.log("RESULT: ");
+
+
 waitUntil("START_DATE", token.START_DATE(), 0);
 
 
@@ -110,11 +241,14 @@ var sendContribution1Message = "Send Contribution #1";
 // -----------------------------------------------------------------------------
 console.log("RESULT: " + sendContribution1Message);
 var sendContribution1_1Tx = eth.sendTransaction({from: account3, to: tokenAddress, gas: 400000, value: web3.toWei("4000", "ether")});
+var sendContribution1_2Tx = eth.sendTransaction({from: account6, to: tokenAddress, gas: 400000, value: web3.toWei("3000", "ether")});
 while (txpool.status.pending > 0) {
 }
 printBalances();
 failIfTxStatusError(sendContribution1_1Tx, sendContribution1Message + " - ac3 4,000 ETH");
+passIfTxStatusError(sendContribution1_2Tx, sendContribution1Message + " - ac6 3,000 ETH - Expecting failure as not whitelisted");
 printTxData("sendContribution1_1Tx", sendContribution1_1Tx);
+printTxData("sendContribution1_2Tx", sendContribution1_2Tx);
 printTokenContractDetails();
 console.log("RESULT: ");
 

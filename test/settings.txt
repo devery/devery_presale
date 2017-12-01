@@ -3,6 +3,10 @@ PASSWORD=testtest
 
 SOURCEDIR=../contracts
 
+WHITELISTSOL=DeveryPresaleWhitelist.sol
+WHITELISTJS=DeveryPresaleWhitelist.js
+PICOPSCERTIFIERSOL=TestPICOPSCertifier.sol
+PICOPSCERTIFIERJS=TestPICOPSCertifier.js
 TOKENSOL=DeveryPresale.sol
 TOKENJS=DeveryPresale.js
 
