@@ -173,7 +173,7 @@ contract ERC20Token is ERC20Interface, Owned, SafeMath {
 contract DeveryPresale is ERC20Token {
     address public wallet;
     // new Date(1512867600 * 1000).toString() => "Sun, 10 Dec 2017 12:00:00 AEDT"
-    uint public START_DATE = 1512867600;
+    uint public START_DATE = 1512138118; // Fri  1 Dec 2017 14:21:58 UTC
     bool public closed;
     uint public ethMinContribution = 20 ether;
     uint public usdCap = 2000000;

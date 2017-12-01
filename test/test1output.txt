@@ -1,0 +1,366 @@
+MODE               = 'test'
+GETHATTACHPOINT    = 'ipc:./testchain/geth.ipc'
+PASSWORD           = 'testtest'
+SOURCEDIR          = '../contracts'
+TOKENSOL           = 'DeveryPresale.sol'
+TOKENJS            = 'DeveryPresale.js'
+DEPLOYMENTDATA     = 'deploymentData.txt'
+INCLUDEJS          = './include.js'
+TEST1OUTPUT        = 'test1output.txt'
+TEST1RESULTS       = 'test1results.txt'
+CURRENTTIME        = '1512138073' 'Fri  1 Dec 2017 14:21:13 UTC'
+START_DATE         = '1512138118' 'Fri  1 Dec 2017 14:21:58 UTC'
+--- Differences ../contracts/DeveryPresale.sol DeveryPresale.sol ---
+176c176
+<     uint public START_DATE = 1512867600;
+---
+>     uint public START_DATE = 1512138118; // Fri  1 Dec 2017 14:21:58 UTC
+solc, the solidity compiler commandline interface
+Version: 0.4.18+commit.9cf6e910.Darwin.appleclang
+Welcome to the Geth JavaScript console!
+
+instance: Geth/v1.7.3-stable-4bb3c89d/darwin-amd64/go1.9.2
+coinbase: 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e
+at block: 1778 (Sat, 02 Dec 2017 01:21:09 AEDT)
+ datadir: /Users/bok/Projects/DeveryPresale/test/testchain
+ modules: admin:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 txpool:1.0 web3:1.0
+
+> 
+true
+> 
+true
+> 
+> 
+undefined
+> 
+undefined
+> 
+> 
+undefined
+> 
+undefined
+> 
+> 
+undefined
+> 
+RESULT:  # Account                                             EtherBalanceChange              Token Name
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT:  0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e        6.000000000000000000           0.000000 Account #0 - Miner
+RESULT:  1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433        0.000000000000000000           0.000000 Account #1 - Contract Owner
+RESULT:  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.000000 Account #2 - Wallet
+RESULT:  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.000000 Account #3
+RESULT:  4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000 Account #4
+RESULT:  5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000 Account #5
+RESULT:  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000 Account #6
+RESULT:  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000 Account #7
+RESULT:  8 0xa88a05d2b88283ce84c8325760b72a64591279a2        0.000000000000000000           0.000000 Account #8
+RESULT:  9 0xa99a0ae3354c06b1459fd441a32a3f71005d7da0        0.000000000000000000           0.000000 Account #9
+RESULT: 10 0xaaaa9de1e6c564446ebca0fd102d8bd92093c756        0.000000000000000000           0.000000 Account #10 - Owner #1
+RESULT: 11 0xabba43e7594e3b76afb157989e93c6621497fd4b        0.000000000000000000           0.000000 Account #11 - Owner #2
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT:                                                                                     0.000000 Total Token Balances
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT: 
+undefined
+> 
+RESULT: 
+undefined
+> 
+> 
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+RESULT: Deploy Token Contract
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+... 
+...... 
+......... 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+............ 
+......... 
+...... 
+... 
+undefined
+> 
+... 
+undefined
+> 
+DATA: tokenAddress=0xf3d9d349146b55cf4e0b622edc71bc4af76b014c
+RESULT:  # Account                                             EtherBalanceChange              Token Name
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT:  0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       12.001422525000000000           0.000000000000000000 Account #0 - Miner
+RESULT:  1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.001422525000000000           0.000000000000000000 Account #1 - Contract Owner
+RESULT:  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976        0.000000000000000000           0.000000000000000000 Account #2 - Wallet
+RESULT:  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0        0.000000000000000000           0.000000000000000000 Account #3
+RESULT:  4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000000000000000 Account #4
+RESULT:  5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+RESULT:  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+RESULT:  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+RESULT:  8 0xa88a05d2b88283ce84c8325760b72a64591279a2        0.000000000000000000           0.000000000000000000 Account #8
+RESULT:  9 0xa99a0ae3354c06b1459fd441a32a3f71005d7da0        0.000000000000000000           0.000000000000000000 Account #9
+RESULT: 10 0xaaaa9de1e6c564446ebca0fd102d8bd92093c756        0.000000000000000000           0.000000000000000000 Account #10 - Owner #1
+RESULT: 11 0xabba43e7594e3b76afb157989e93c6621497fd4b        0.000000000000000000           0.000000000000000000 Account #11 - Owner #2
+RESULT: 12 0xf3d9d349146b55cf4e0b622edc71bc4af76b014c        0.000000000000000000           0.000000000000000000 Token 'PREVE' 'Presale EVE Tokens'
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT:                                                                                     0.000000000000000000 Total Token Balances
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT: 
+undefined
+> 
+RESULT: PASS Deploy Token Contract
+1
+> 
+RESULT: tokenAddress=0xf3d9d349146b55cf4e0b622edc71bc4af76b014c status=0x1 Success gas=6000000 gasUsed=1422525 costETH=0.001422525 costUSD=0.6683306955 @ ETH/USD=469.82 gasPrice=1 gwei block=1782 txIx=0 txId=0x69e8578c6ed94d2fe00904fd2662d57ecf82ed8269600d61b5bac8c60f350efc @ 1512138088 Fri, 01 Dec 2017 14:21:28 UTC
+undefined
+> 
+RESULT: tokenContractAddress=0xf3d9d349146b55cf4e0b622edc71bc4af76b014c
+RESULT: token.owner=0xa11aae29840fbb5c86e6fd4cf809eba183aef433
+RESULT: token.newOwner=0x0000000000000000000000000000000000000000
+RESULT: token.symbol=PREVE
+RESULT: token.name=Presale EVE Tokens
+RESULT: token.decimals=18
+RESULT: token.totalSupply=0
+RESULT: token.transferable=false
+RESULT: token.mintable=true
+RESULT: token.wallet=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+RESULT: token.START_DATE=1512138118 Fri, 01 Dec 2017 14:21:58 UTC
+RESULT: token.closed=false
+RESULT: token.ethMinContribution=20000000000000000000 20 ETH
+RESULT: token.usdCap=2000000
+RESULT: token.usdPerKEther=444050
+RESULT: token.ethCap=4.503997297601621439027e+21 4503.997297601621439027 ETH
+RESULT: token.contributedEth=0 0 ETH
+RESULT: token.contributedUsd=0
+undefined
+> 
+RESULT: 
+undefined
+> 
+> 
+> 
+RESULT: Waiting until 'START_DATE' at 1512138118+0s =Sat, 02 Dec 2017 01:21:59 AEDT now=Sat, 02 Dec 2017 01:21:31 AEDT
+RESULT: Waited until 'START_DATE' at at 1512138118+0s =Sat, 02 Dec 2017 01:21:59 AEDT now=Sat, 02 Dec 2017 01:21:59 AEDT
+RESULT: 
+undefined
+> 
+> 
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+RESULT: Send Contribution #1
+undefined
+> 
+undefined
+> 
+... 
+undefined
+> 
+RESULT:  # Account                                             EtherBalanceChange              Token Name
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT:  0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       33.001536843000000000           0.000000000000000000 Account #0 - Miner
+RESULT:  1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.001422525000000000           0.000000000000000000 Account #1 - Contract Owner
+RESULT:  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976     4000.000000000000000000           0.000000000000000000 Account #2 - Wallet
+RESULT:  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0    -4000.000114318000000000        4000.000000000000000000 Account #3
+RESULT:  4 0xa44a08d3f6933c69212114bb66e2df1813651844        0.000000000000000000           0.000000000000000000 Account #4
+RESULT:  5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+RESULT:  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+RESULT:  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+RESULT:  8 0xa88a05d2b88283ce84c8325760b72a64591279a2        0.000000000000000000           0.000000000000000000 Account #8
+RESULT:  9 0xa99a0ae3354c06b1459fd441a32a3f71005d7da0        0.000000000000000000           0.000000000000000000 Account #9
+RESULT: 10 0xaaaa9de1e6c564446ebca0fd102d8bd92093c756        0.000000000000000000           0.000000000000000000 Account #10 - Owner #1
+RESULT: 11 0xabba43e7594e3b76afb157989e93c6621497fd4b        0.000000000000000000           0.000000000000000000 Account #11 - Owner #2
+RESULT: 12 0xf3d9d349146b55cf4e0b622edc71bc4af76b014c        0.000000000000000000           0.000000000000000000 Token 'PREVE' 'Presale EVE Tokens'
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT:                                                                                  4000.000000000000000000 Total Token Balances
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT: 
+undefined
+> 
+RESULT: PASS Send Contribution #1 - ac3 4,000 ETH
+1
+> 
+RESULT: sendContribution1_1Tx status=0x1 Success gas=400000 gasUsed=114318 costETH=0.000114318 costUSD=0.05370888276 @ ETH/USD=469.82 gasPrice=1 gwei block=1789 txIx=0 txId=0x560f6d1c56c2d6d96b251b1369aa291185d6061d152531152e0821f2a6512da8 @ 1512138124 Fri, 01 Dec 2017 14:22:04 UTC
+undefined
+> 
+RESULT: tokenContractAddress=0xf3d9d349146b55cf4e0b622edc71bc4af76b014c
+RESULT: token.owner=0xa11aae29840fbb5c86e6fd4cf809eba183aef433
+RESULT: token.newOwner=0x0000000000000000000000000000000000000000
+RESULT: token.symbol=PREVE
+RESULT: token.name=Presale EVE Tokens
+RESULT: token.decimals=18
+RESULT: token.totalSupply=4000
+RESULT: token.transferable=false
+RESULT: token.mintable=true
+RESULT: token.wallet=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+RESULT: token.START_DATE=1512138118 Fri, 01 Dec 2017 14:21:58 UTC
+RESULT: token.closed=false
+RESULT: token.ethMinContribution=20000000000000000000 20 ETH
+RESULT: token.usdCap=2000000
+RESULT: token.usdPerKEther=444050
+RESULT: token.ethCap=4.503997297601621439027e+21 4503.997297601621439027 ETH
+RESULT: token.contributedEth=4e+21 4000 ETH
+RESULT: token.contributedUsd=1776200
+RESULT: Contributed 0 #1789 {"addr":"0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0","contributedEth":"4e+21","contributedUsd":"1776200","ethAmount":"4e+21","ethRefund":"0","usdAmount":"1776200"}
+undefined
+> 
+RESULT: 
+undefined
+> 
+> 
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+RESULT: Send Contribution #2
+undefined
+> 
+undefined
+> 
+... 
+undefined
+> 
+RESULT:  # Account                                             EtherBalanceChange              Token Name
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT:  0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       39.001624449000000000           0.000000000000000000 Account #0 - Miner
+RESULT:  1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.001422525000000000           0.000000000000000000 Account #1 - Contract Owner
+RESULT:  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976     4503.997297601621439027           0.000000000000000000 Account #2 - Wallet
+RESULT:  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0    -4000.000114318000000000        4000.000000000000000000 Account #3
+RESULT:  4 0xa44a08d3f6933c69212114bb66e2df1813651844     -503.997385207621439027         503.997297601621439027 Account #4
+RESULT:  5 0xa55a151eb00fded1634d27d1127b4be4627079ea        0.000000000000000000           0.000000000000000000 Account #5
+RESULT:  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+RESULT:  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+RESULT:  8 0xa88a05d2b88283ce84c8325760b72a64591279a2        0.000000000000000000           0.000000000000000000 Account #8
+RESULT:  9 0xa99a0ae3354c06b1459fd441a32a3f71005d7da0        0.000000000000000000           0.000000000000000000 Account #9
+RESULT: 10 0xaaaa9de1e6c564446ebca0fd102d8bd92093c756        0.000000000000000000           0.000000000000000000 Account #10 - Owner #1
+RESULT: 11 0xabba43e7594e3b76afb157989e93c6621497fd4b        0.000000000000000000           0.000000000000000000 Account #11 - Owner #2
+RESULT: 12 0xf3d9d349146b55cf4e0b622edc71bc4af76b014c        0.000000000000000000           0.000000000000000000 Token 'PREVE' 'Presale EVE Tokens'
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT:                                                                                  4503.997297601621439027 Total Token Balances
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT: 
+undefined
+> 
+RESULT: PASS Send Contribution #2 - ac4 4,000 ETH - Only partial amount accepted
+1
+> 
+RESULT: sendContribution2_1Tx status=0x1 Success gas=400000 gasUsed=87606 costETH=0.000087606 costUSD=0.04115905092 @ ETH/USD=469.82 gasPrice=1 gwei block=1791 txIx=0 txId=0xa19c32f38a1f80592297c0bfc9127eca0817559fc51a12ef06e660dfb1538d75 @ 1512138134 Fri, 01 Dec 2017 14:22:14 UTC
+undefined
+> 
+RESULT: tokenContractAddress=0xf3d9d349146b55cf4e0b622edc71bc4af76b014c
+RESULT: token.owner=0xa11aae29840fbb5c86e6fd4cf809eba183aef433
+RESULT: token.newOwner=0x0000000000000000000000000000000000000000
+RESULT: token.symbol=PREVE
+RESULT: token.name=Presale EVE Tokens
+RESULT: token.decimals=18
+RESULT: token.totalSupply=4503.997297601621439027
+RESULT: token.transferable=false
+RESULT: token.mintable=false
+RESULT: token.wallet=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+RESULT: token.START_DATE=1512138118 Fri, 01 Dec 2017 14:21:58 UTC
+RESULT: token.closed=true
+RESULT: token.ethMinContribution=20000000000000000000 20 ETH
+RESULT: token.usdCap=2000000
+RESULT: token.usdPerKEther=444050
+RESULT: token.ethCap=4.503997297601621439027e+21 4503.997297601621439027 ETH
+RESULT: token.contributedEth=4.503997297601621439027e+21 4503.997297601621439027 ETH
+RESULT: token.contributedUsd=1999999
+RESULT: MintingDisabled 0 #1791 {}
+RESULT: Contributed 0 #1791 {"addr":"0xa44a08d3f6933c69212114bb66e2df1813651844","contributedEth":"4.503997297601621439027e+21","contributedUsd":"1999999","ethAmount":"503997297601621439027","ethRefund":"3.496002702398378560973e+21","usdAmount":"223799"}
+undefined
+> 
+RESULT: 
+undefined
+> 
+> 
+> 
+undefined
+> 
+undefined
+> 
+undefined
+> 
+RESULT: Send Contribution #3
+undefined
+> 
+undefined
+> 
+... 
+undefined
+> 
+RESULT:  # Account                                             EtherBalanceChange              Token Name
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT:  0 0xa00af22d07c87d96eeeb0ed583f8f6ac7812827e       45.001645660000000000           0.000000000000000000 Account #0 - Miner
+RESULT:  1 0xa11aae29840fbb5c86e6fd4cf809eba183aef433       -0.001422525000000000           0.000000000000000000 Account #1 - Contract Owner
+RESULT:  2 0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976     4503.997297601621439027           0.000000000000000000 Account #2 - Wallet
+RESULT:  3 0xa33a6c312d9ad0e0f2e95541beed0cc081621fd0    -4000.000114318000000000        4000.000000000000000000 Account #3
+RESULT:  4 0xa44a08d3f6933c69212114bb66e2df1813651844     -503.997385207621439027         503.997297601621439027 Account #4
+RESULT:  5 0xa55a151eb00fded1634d27d1127b4be4627079ea       -0.000021211000000000           0.000000000000000000 Account #5
+RESULT:  6 0xa66a85ede0cbe03694aa9d9de0bb19c99ff55bd9        0.000000000000000000           0.000000000000000000 Account #6
+RESULT:  7 0xa77a2b9d4b1c010a22a7c565dc418cef683dbcec        0.000000000000000000           0.000000000000000000 Account #7
+RESULT:  8 0xa88a05d2b88283ce84c8325760b72a64591279a2        0.000000000000000000           0.000000000000000000 Account #8
+RESULT:  9 0xa99a0ae3354c06b1459fd441a32a3f71005d7da0        0.000000000000000000           0.000000000000000000 Account #9
+RESULT: 10 0xaaaa9de1e6c564446ebca0fd102d8bd92093c756        0.000000000000000000           0.000000000000000000 Account #10 - Owner #1
+RESULT: 11 0xabba43e7594e3b76afb157989e93c6621497fd4b        0.000000000000000000           0.000000000000000000 Account #11 - Owner #2
+RESULT: 12 0xf3d9d349146b55cf4e0b622edc71bc4af76b014c        0.000000000000000000           0.000000000000000000 Token 'PREVE' 'Presale EVE Tokens'
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT:                                                                                  4503.997297601621439027 Total Token Balances
+RESULT: -- ------------------------------------------ --------------------------- ------------------ ---------------------------
+RESULT: 
+undefined
+> 
+RESULT: PASS Send Contribution #3 - ac5 4,000 ETH - Expecting failure
+1
+> 
+RESULT: sendContribution3_1Tx status=0x0 Failure gas=400000 gasUsed=21211 costETH=0.000021211 costUSD=0.00996535202 @ ETH/USD=469.82 gasPrice=1 gwei block=1793 txIx=0 txId=0xfa804ef0e0780b23af568dfc812f6aa918b2c6ea8002cef8dc9c5f65b270d179 @ 1512138147 Fri, 01 Dec 2017 14:22:27 UTC
+undefined
+> 
+RESULT: tokenContractAddress=0xf3d9d349146b55cf4e0b622edc71bc4af76b014c
+RESULT: token.owner=0xa11aae29840fbb5c86e6fd4cf809eba183aef433
+RESULT: token.newOwner=0x0000000000000000000000000000000000000000
+RESULT: token.symbol=PREVE
+RESULT: token.name=Presale EVE Tokens
+RESULT: token.decimals=18
+RESULT: token.totalSupply=4503.997297601621439027
+RESULT: token.transferable=false
+RESULT: token.mintable=false
+RESULT: token.wallet=0xa22ab8a9d641ce77e06d98b7d7065d324d3d6976
+RESULT: token.START_DATE=1512138118 Fri, 01 Dec 2017 14:21:58 UTC
+RESULT: token.closed=true
+RESULT: token.ethMinContribution=20000000000000000000 20 ETH
+RESULT: token.usdCap=2000000
+RESULT: token.usdPerKEther=444050
+RESULT: token.ethCap=4.503997297601621439027e+21 4503.997297601621439027 ETH
+RESULT: token.contributedEth=4.503997297601621439027e+21 4503.997297601621439027 ETH
+RESULT: token.contributedUsd=1999999
+undefined
+> 
+RESULT: 
+undefined
+> 
+> 
+> 
