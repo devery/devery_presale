@@ -55,7 +55,7 @@ printf "START_DATE         = '$START_DATE' '$START_DATE_S'\n" | tee -a $TEST1OUT
 `cp $SOURCEDIR/$TOKENSOL .`
 
 # --- Modify parameters ---
-`perl -pi -e "s/START_DATE \= 1512867600;.*$/START_DATE \= $START_DATE; \/\/ $START_DATE_S/" $TOKENSOL`
+`perl -pi -e "s/START_DATE \= 1513303200;.*$/START_DATE \= $START_DATE; \/\/ $START_DATE_S/" $TOKENSOL`
 
 DIFFS1=`diff $SOURCEDIR/$WHITELISTSOL $WHITELISTSOL`
 echo "--- Differences $SOURCEDIR/$WHITELISTSOL $WHITELISTSOL ---" | tee -a $TEST1OUTPUT
@@ -212,8 +212,8 @@ var setTokenParameters_Message = "Set Token Contract Parameters";
 // -----------------------------------------------------------------------------
 console.log("RESULT: " + setTokenParameters_Message);
 var setTokenParameters_1Tx = token.setEthMinContribution(web3.toWei(10, "ether"), {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setTokenParameters_2Tx = token.setUsdCap(2200000, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setTokenParameters_3Tx = token.setUsdPerKEther(444444, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+var setTokenParameters_2Tx = token.setUsdCap(2000000, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+var setTokenParameters_3Tx = token.setUsdPerKEther(453550, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
 var setTokenParameters_4Tx = token.setWhitelist(whitelistAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
 var setTokenParameters_5Tx = token.setPICOPSCertifier(picopsCertifierAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
 while (txpool.status.pending > 0) {

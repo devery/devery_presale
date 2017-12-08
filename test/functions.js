@@ -1,6 +1,6 @@
-// Nov 29 2017
-var ethPriceUSD = 469.82;
-var defaultGasPrice = web3.toWei(1, "gwei");
+// Dec 9 2017 03:00 AEST
+var ethPriceUSD = 453.55;
+var defaultGasPrice = web3.toWei(50, "gwei");
 
 // -----------------------------------------------------------------------------
 // Accounts
@@ -328,7 +328,12 @@ function printTokenContractDetails() {
     var contributedEvents = contract.Contributed({}, { fromBlock: tokenFromBlock, toBlock: latestBlock });
     i = 0;
     contributedEvents.watch(function (error, result) {
-      console.log("RESULT: Contributed " + i++ + " #" + result.blockNumber + " " + JSON.stringify(result.args));
+      console.log("RESULT: Contributed " + i++ + " #" + result.blockNumber + " addr=" + result.args.addr + 
+        " ethAmount=" + result.args.ethAmount + " " + result.args.ethAmount.shift(-18) + " ETH" +
+        " ethRefund=" + result.args.ethRefund + " " + result.args.ethRefund.shift(-18) + " ETH" +
+        " usdAmount=" + result.args.usdAmount + " USD" +
+        " contributedEth=" + result.args.contributedEth + " " + result.args.contributedEth.shift(-18) + " ETH" +
+        " contributedUsd=" + result.args.contributedUsd + " USD");
     });
     contributedEvents.stopWatching();
 
