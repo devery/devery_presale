@@ -96,8 +96,10 @@ in [test/test1results.txt](test/test1results.txt) and the detailed output saved 
 * [x] Wait until start date
 * [x] Contribute from whitelisted address below cap
 * [x] Contribute from non-whitelisted address below cap, expecting failure
-* [x] Contribute above cap, excess refunded, presale closed
-* [x] Contribute after presale closed, expecting failure 
+* [x] Contribute above cap, excess refunded
+* [x] Increase cap
+* [x] Contribute below cap 
+* [x] Manually close sale
 
 Details of the testing environment can be found in [test](test).
 
@@ -128,4 +130,4 @@ Note that this is a code review by the author of the contracts:
 
 <br />
 
-(c) BokkyPooBah / Bok Consulting Pty Ltd for Devery - Dec 02 2017. The MIT Licence.
+(c) BokkyPooBah / Bok Consulting Pty Ltd for Devery - Dec 14 2017. The MIT Licence.

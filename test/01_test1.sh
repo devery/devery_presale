@@ -281,6 +281,48 @@ printTokenContractDetails();
 console.log("RESULT: ");
 
 
+// -----------------------------------------------------------------------------
+var increaseCapMessage = "Increase Cap";
+// -----------------------------------------------------------------------------
+console.log("RESULT: " + increaseCapMessage);
+var increaseCapTx = token.setUsdCap(4000000, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+while (txpool.status.pending > 0) {
+}
+printBalances();
+failIfTxStatusError(increaseCapTx, increaseCapMessage);
+printTxData("increaseCapTx", increaseCapTx);
+printTokenContractDetails();
+console.log("RESULT: ");
+
+
+// -----------------------------------------------------------------------------
+var sendContribution4Message = "Send Contribution #3";
+// -----------------------------------------------------------------------------
+console.log("RESULT: " + sendContribution4Message);
+var sendContribution4_1Tx = eth.sendTransaction({from: account5, to: tokenAddress, gas: 400000, value: web3.toWei("4000", "ether")});
+while (txpool.status.pending > 0) {
+}
+printBalances();
+failIfTxStatusError(sendContribution4_1Tx, sendContribution4Message + " - ac5 4,000 ETH - Expecting failure");
+printTxData("sendContribution4_1Tx", sendContribution4_1Tx);
+printTokenContractDetails();
+console.log("RESULT: ");
+
+
+// -----------------------------------------------------------------------------
+var closeMessage = "Close Sale";
+// -----------------------------------------------------------------------------
+console.log("RESULT: " + closeMessage);
+var closeTx = token.closeSale({from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+while (txpool.status.pending > 0) {
+}
+printBalances();
+failIfTxStatusError(closeTx, closeMessage);
+printTxData("closeTx", closeTx);
+printTokenContractDetails();
+console.log("RESULT: ");
+
+
 exit;
 
 // -----------------------------------------------------------------------------

@@ -34,20 +34,20 @@ contract PICOPSCertifier {
 // ----------------------------------------------------------------------------
 // Safe maths
 // ----------------------------------------------------------------------------
-contract SafeMath {
-    function safeAdd(uint a, uint b) public pure returns (uint c) {
+library SafeMath {
+    function add(uint a, uint b) internal pure returns (uint c) {
         c = a + b;
         require(c >= a);
     }
-    function safeSub(uint a, uint b) public pure returns (uint c) {
+    function sub(uint a, uint b) internal pure returns (uint c) {
         require(b <= a);
         c = a - b;
     }
-    function safeMul(uint a, uint b) public pure returns (uint c) {
+    function mul(uint a, uint b) internal pure returns (uint c) {
         c = a * b;
         require(a == 0 || c / a == b);
     }
-    function safeDiv(uint a, uint b) public pure returns (uint c) {
+    function div(uint a, uint b) internal pure returns (uint c) {
         require(b > 0);
         c = a / b;
     }
@@ -104,7 +104,9 @@ contract Owned {
 // transferable flag. See:
 // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md
 // ----------------------------------------------------------------------------
-contract ERC20Token is ERC20Interface, Owned, SafeMath {
+contract ERC20Token is ERC20Interface, Owned {
+    using SafeMath for uint;
+
     string public symbol;
     string public  name;
     uint8 public decimals;
@@ -134,8 +136,8 @@ contract ERC20Token is ERC20Interface, Owned, SafeMath {
     }
     function transfer(address to, uint tokens) public returns (bool success) {
         require(transferable);
-        balances[msg.sender] = safeSub(balances[msg.sender], tokens);
-        balances[to] = safeAdd(balances[to], tokens);
+        balances[msg.sender] = balances[msg.sender].sub(tokens);
+        balances[to] = balances[to].add(tokens);
         Transfer(msg.sender, to, tokens);
         return true;
     }
@@ -147,9 +149,9 @@ contract ERC20Token is ERC20Interface, Owned, SafeMath {
     }
     function transferFrom(address from, address to, uint tokens) public returns (bool success) {
         require(transferable);
-        balances[from] = safeSub(balances[from], tokens);
-        allowed[from][msg.sender] = safeSub(allowed[from][msg.sender], tokens);
-        balances[to] = safeAdd(balances[to], tokens);
+        balances[from] = balances[from].sub(tokens);
+        allowed[from][msg.sender] = allowed[from][msg.sender].sub(tokens);
+        balances[to] = balances[to].add(tokens);
         Transfer(from, to, tokens);
         return true;
     }
@@ -170,8 +172,8 @@ contract ERC20Token is ERC20Interface, Owned, SafeMath {
     }
     function mint(address tokenOwner, uint tokens) internal {
         require(mintable);
-        balances[tokenOwner] = safeAdd(balances[tokenOwner], tokens);
-        _totalSupply = safeAdd(_totalSupply, tokens);
+        balances[tokenOwner] = balances[tokenOwner].add(tokens);
+        _totalSupply = _totalSupply.add(tokens);
         Transfer(address(0), tokenOwner, tokens);
     }
     function transferAnyERC20Token(address tokenAddress, uint tokens) public onlyOwner returns (bool success) {
@@ -252,18 +254,15 @@ contract DeveryPresale is ERC20Token {
         require(msg.value >= ethMinContribution);
         uint ethAmount = msg.value;
         uint ethRefund = 0;
-        if (safeAdd(contributedEth, ethAmount) > ethCap()) {
-            ethAmount = safeSub(ethCap(), contributedEth);
-            ethRefund = safeSub(msg.value, ethAmount);
+        if (contributedEth.add(ethAmount) > ethCap()) {
+            ethAmount = ethCap().sub(contributedEth);
+            ethRefund = msg.value.sub(ethAmount);
         }
+        require(ethAmount > 0);
         uint usdAmount = ethAmount * usdPerKEther / 10**uint(3 + 18);
-        contributedEth = safeAdd(contributedEth, ethAmount);
-        contributedUsd = safeAdd(contributedUsd, usdAmount);
+        contributedEth = contributedEth.add(ethAmount);
+        contributedUsd = contributedUsd.add(usdAmount);
         mint(msg.sender, ethAmount);
-        if (contributedEth >= ethCap()) {
-            closed = true;
-            disableMinting();
-        }
         wallet.transfer(ethAmount);
         Contributed(msg.sender, ethAmount, ethRefund, usdAmount, contributedEth, contributedUsd);
         if (ethRefund > 0) {
