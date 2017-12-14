@@ -256,8 +256,8 @@ contract DeveryPresale is ERC20Token {
     function () public payable {
         require(now >= START_DATE || (msg.sender == owner && msg.value == TEST_CONTRIBUTION));
         require(!closed);
-        require(whitelist.whitelist(msg.sender) > 0 || picopsCertifier.certified(msg.sender));
-        require(msg.value >= ethMinContribution);
+        require(addressCanContribute(msg.sender));
+        require(msg.value >= ethMinContribution || (msg.sender == owner && msg.value == TEST_CONTRIBUTION));
         uint ethAmount = msg.value;
         uint ethRefund = 0;
         if (contributedEth.add(ethAmount) > ethCap()) {

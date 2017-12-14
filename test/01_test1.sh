@@ -137,11 +137,11 @@ console.log("RESULT: ");
 var whitelistAccounts_Message = "Whitelist Accounts";
 // -----------------------------------------------------------------------------
 console.log("RESULT: " + whitelistAccounts_Message);
-var whitelistAccounts_1Tx = whitelist.multiAdd([account3, account5], [1, 1], {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+var whitelistAccounts_1Tx = whitelist.multiAdd([account3, account5, contractOwnerAccount], [1, 1, 1], {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
 while (txpool.status.pending > 0) {
 }
 printBalances();
-failIfTxStatusError(whitelistAccounts_1Tx, whitelistAccounts_Message + " - multiAdd([account3, account4, account5], [1, 1, 1])");
+failIfTxStatusError(whitelistAccounts_1Tx, whitelistAccounts_Message + " - multiAdd([account3, account5, contractOwnerAccount], [1, 1, 1])");
 printTxData("whitelistAccounts_1Tx", whitelistAccounts_1Tx);
 printWhitelistContractDetails();
 console.log("RESULT: ");
@@ -232,6 +232,20 @@ printTxData("setTokenParameters_3Tx", setTokenParameters_3Tx);
 printTxData("setTokenParameters_4Tx", setTokenParameters_4Tx);
 printTxData("setTokenParameters_5Tx", setTokenParameters_5Tx);
 printTxData("setTokenParameters_6Tx", setTokenParameters_6Tx);
+printTokenContractDetails();
+console.log("RESULT: ");
+
+
+// -----------------------------------------------------------------------------
+var sendContribution0Message = "Send Test Contribution From Owner Account";
+// -----------------------------------------------------------------------------
+console.log("RESULT: " + sendContribution0Message);
+var sendContribution0_1Tx = eth.sendTransaction({from: contractOwnerAccount, to: tokenAddress, gas: 400000, value: web3.toWei("0.01", "ether")});
+while (txpool.status.pending > 0) {
+}
+printBalances();
+failIfTxStatusError(sendContribution0_1Tx, sendContribution0Message + " - ac1 0.01 ETH");
+printTxData("sendContribution0_1Tx", sendContribution0_1Tx);
 printTokenContractDetails();
 console.log("RESULT: ");
 

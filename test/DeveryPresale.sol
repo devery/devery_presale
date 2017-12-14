@@ -189,7 +189,7 @@ contract DeveryPresale is ERC20Token {
     address public wallet;
     // 9:00pm, 14 December GMT-5 => 02:00 15 December UTC => 13:00 15 December AEST => 1513303200
     // new Date(1513303200 * 1000).toUTCString() =>  "Fri, 15 Dec 2017 02:00:00 UTC"
-    uint public constant START_DATE = 1513234161; // Thu 14 Dec 2017 06:49:21 UTC
+    uint public constant START_DATE = 1513256861; // Thu 14 Dec 2017 13:07:41 UTC
     bool public closed;
     uint public ethMinContribution = 20 ether;
     uint public constant TEST_CONTRIBUTION = 0.01 ether;
@@ -256,8 +256,8 @@ contract DeveryPresale is ERC20Token {
     function () public payable {
         require(now >= START_DATE || (msg.sender == owner && msg.value == TEST_CONTRIBUTION));
         require(!closed);
-        require(whitelist.whitelist(msg.sender) > 0 || picopsCertifier.certified(msg.sender));
-        require(msg.value >= ethMinContribution);
+        require(addressCanContribute(msg.sender));
+        require(msg.value >= ethMinContribution || (msg.sender == owner && msg.value == TEST_CONTRIBUTION));
         uint ethAmount = msg.value;
         uint ethRefund = 0;
         if (contributedEth.add(ethAmount) > ethCap()) {
