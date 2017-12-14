@@ -1,8 +1,8 @@
 {
-  "blockNumber": 4730744,
-  "blockTimestamp": 1513248381,
-  "blockTimestampString": "Thu, 14 Dec 2017 10:46:21 UTC",
-  "crowdsaleContractAddress": "0x5e99FF20c437ADbb0F503f0B33BA8AA0F9661a9D",
+  "blockNumber": 4731615,
+  "blockTimestamp": 1513261092,
+  "blockTimestampString": "Thu, 14 Dec 2017 14:18:12 UTC",
+  "crowdsaleContractAddress": "0x8ca1d9C33c338520604044977be69a9AC19d6E54",
   "crowdsaleContractOwnerAddress": "0x2f0b7563e440b732782a8a99ab7fbd1bc5bbfc4f",
   "crowdsaleContractNewOwnerAddress": "0x0000000000000000000000000000000000000000",
   "crowdsaleWalletAddress": "0x2f0b7563e440b732782a8a99ab7fbd1bc5bbfc4f",
@@ -23,5 +23,8 @@
   "crowdsaleContributedEth": 0,
   "crowdsaleContributedUsd": 0,
   "crowdsaleWhiteListAddress": "0x0000000000000000000000000000000000000000",
-  "crowdsalePICOPSCertifier": "0x0000000000000000000000000000000000000000"
+  "crowdsalePICOPSCertifier": "0x0000000000000000000000000000000000000000",
+  "numberOfContributions": 0,
+  "contributions": [
+  ]
 }
