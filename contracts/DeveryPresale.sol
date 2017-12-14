@@ -192,6 +192,7 @@ contract DeveryPresale is ERC20Token {
     uint public constant START_DATE = 1513303200;
     bool public closed;
     uint public ethMinContribution = 20 ether;
+    uint public constant TEST_CONTRIBUTION = 0.01 ether;
     uint public usdCap = 2000000;
     // ETH/USD 8 Dec 2017 11:00 EST => 8 Dec 2017 16:00 UTC => 9 Dec 2017 03:00 AEST => 453.55 from CMC
     uint public usdPerKEther = 453550;
@@ -248,7 +249,7 @@ contract DeveryPresale is ERC20Token {
         disableMinting();
     }
     function () public payable {
-        require(now >= START_DATE);
+        require(now >= START_DATE || (msg.sender == owner && msg.value == TEST_CONTRIBUTION));
         require(!closed);
         require(whitelist.whitelist(msg.sender) > 0 || picopsCertifier.certified(msg.sender));
         require(msg.value >= ethMinContribution);
