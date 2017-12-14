@@ -194,8 +194,8 @@ contract DeveryPresale is ERC20Token {
     uint public ethMinContribution = 20 ether;
     uint public constant TEST_CONTRIBUTION = 0.01 ether;
     uint public usdCap = 2000000;
-    // ETH/USD 8 Dec 2017 11:00 EST => 8 Dec 2017 16:00 UTC => 9 Dec 2017 03:00 AEST => 453.55 from CMC
-    uint public usdPerKEther = 453550;
+    // ETH/USD 14 Dec 2017 ~ 16:40 AEST => 730 from CMC
+    uint public usdPerKEther = 730000;
     uint public contributedEth;
     uint public contributedUsd;
     DeveryPresaleWhitelist public whitelist;

@@ -214,7 +214,7 @@ console.log("RESULT: " + setTokenParameters_Message);
 var setTokenParameters_1Tx = token.setWallet(wallet, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
 var setTokenParameters_2Tx = token.setEthMinContribution(web3.toWei(10, "ether"), {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
 var setTokenParameters_3Tx = token.setUsdCap(2000000, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setTokenParameters_4Tx = token.setUsdPerKEther(453550, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+var setTokenParameters_4Tx = token.setUsdPerKEther(730111, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
 var setTokenParameters_5Tx = token.setWhitelist(whitelistAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
 var setTokenParameters_6Tx = token.setPICOPSCertifier(picopsCertifierAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
 while (txpool.status.pending > 0) {
@@ -243,13 +243,13 @@ waitUntil("START_DATE", token.START_DATE(), 0);
 var sendContribution1Message = "Send Contribution #1";
 // -----------------------------------------------------------------------------
 console.log("RESULT: " + sendContribution1Message);
-var sendContribution1_1Tx = eth.sendTransaction({from: account3, to: tokenAddress, gas: 400000, value: web3.toWei("4000", "ether")});
-var sendContribution1_2Tx = eth.sendTransaction({from: account6, to: tokenAddress, gas: 400000, value: web3.toWei("3000", "ether")});
+var sendContribution1_1Tx = eth.sendTransaction({from: account3, to: tokenAddress, gas: 400000, value: web3.toWei("2000", "ether")});
+var sendContribution1_2Tx = eth.sendTransaction({from: account6, to: tokenAddress, gas: 400000, value: web3.toWei("1800", "ether")});
 while (txpool.status.pending > 0) {
 }
 printBalances();
-failIfTxStatusError(sendContribution1_1Tx, sendContribution1Message + " - ac3 4,000 ETH");
-passIfTxStatusError(sendContribution1_2Tx, sendContribution1Message + " - ac6 3,000 ETH - Expecting failure as not whitelisted");
+failIfTxStatusError(sendContribution1_1Tx, sendContribution1Message + " - ac3 2,000 ETH");
+passIfTxStatusError(sendContribution1_2Tx, sendContribution1Message + " - ac6 1,800 ETH - Expecting failure as not whitelisted");
 printTxData("sendContribution1_1Tx", sendContribution1_1Tx);
 printTxData("sendContribution1_2Tx", sendContribution1_2Tx);
 printTokenContractDetails();
@@ -260,11 +260,11 @@ console.log("RESULT: ");
 var sendContribution2Message = "Send Contribution #2";
 // -----------------------------------------------------------------------------
 console.log("RESULT: " + sendContribution2Message);
-var sendContribution2_1Tx = eth.sendTransaction({from: account4, to: tokenAddress, gas: 400000, value: web3.toWei("4000", "ether")});
+var sendContribution2_1Tx = eth.sendTransaction({from: account4, to: tokenAddress, gas: 400000, value: web3.toWei("2000", "ether")});
 while (txpool.status.pending > 0) {
 }
 printBalances();
-failIfTxStatusError(sendContribution2_1Tx, sendContribution2Message + " - ac4 4,000 ETH - Only partial amount accepted");
+failIfTxStatusError(sendContribution2_1Tx, sendContribution2Message + " - ac4 2,000 ETH - Only partial amount accepted");
 printTxData("sendContribution2_1Tx", sendContribution2_1Tx);
 printTokenContractDetails();
 console.log("RESULT: ");
@@ -274,11 +274,11 @@ console.log("RESULT: ");
 var sendContribution3Message = "Send Contribution #3";
 // -----------------------------------------------------------------------------
 console.log("RESULT: " + sendContribution3Message);
-var sendContribution3_1Tx = eth.sendTransaction({from: account5, to: tokenAddress, gas: 400000, value: web3.toWei("4000", "ether")});
+var sendContribution3_1Tx = eth.sendTransaction({from: account5, to: tokenAddress, gas: 400000, value: web3.toWei("2000", "ether")});
 while (txpool.status.pending > 0) {
 }
 printBalances();
-passIfTxStatusError(sendContribution3_1Tx, sendContribution3Message + " - ac5 4,000 ETH - Expecting failure");
+passIfTxStatusError(sendContribution3_1Tx, sendContribution3Message + " - ac5 2,000 ETH - Expecting failure");
 printTxData("sendContribution3_1Tx", sendContribution3_1Tx);
 printTokenContractDetails();
 console.log("RESULT: ");
@@ -299,14 +299,14 @@ console.log("RESULT: ");
 
 
 // -----------------------------------------------------------------------------
-var sendContribution4Message = "Send Contribution #3";
+var sendContribution4Message = "Send Contribution #4";
 // -----------------------------------------------------------------------------
 console.log("RESULT: " + sendContribution4Message);
 var sendContribution4_1Tx = eth.sendTransaction({from: account5, to: tokenAddress, gas: 400000, value: web3.toWei("4000", "ether")});
 while (txpool.status.pending > 0) {
 }
 printBalances();
-failIfTxStatusError(sendContribution4_1Tx, sendContribution4Message + " - ac5 4,000 ETH - Expecting failure");
+failIfTxStatusError(sendContribution4_1Tx, sendContribution4Message + " - ac5 2,000 ETH - Expecting failure");
 printTxData("sendContribution4_1Tx", sendContribution4_1Tx);
 printTokenContractDetails();
 console.log("RESULT: ");
