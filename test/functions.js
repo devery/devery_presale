@@ -290,6 +290,13 @@ function printTokenContractDetails() {
     });
     transfersEnabledEvents.stopWatching();
 
+    var walletUpdatedEvents = contract.WalletUpdated({}, { fromBlock: tokenFromBlock, toBlock: latestBlock });
+    i = 0;
+    walletUpdatedEvents.watch(function (error, result) {
+      console.log("RESULT: WalletUpdated " + i++ + " #" + result.blockNumber + " " + JSON.stringify(result.args));
+    });
+    walletUpdatedEvents.stopWatching();
+
     var ethMinContributionUpdatedEvents = contract.EthMinContributionUpdated({}, { fromBlock: tokenFromBlock, toBlock: latestBlock });
     i = 0;
     ethMinContributionUpdatedEvents.watch(function (error, result) {

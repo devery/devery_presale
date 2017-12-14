@@ -201,6 +201,7 @@ contract DeveryPresale is ERC20Token {
     DeveryPresaleWhitelist public whitelist;
     PICOPSCertifier public picopsCertifier;
 
+    event WalletUpdated(address indexed oldWallet, address indexed newWallet);
     event EthMinContributionUpdated(uint oldEthMinContribution, uint newEthMinContribution);
     event UsdCapUpdated(uint oldUsdCap, uint newUsdCap);
     event UsdPerKEtherUpdated(uint oldUsdPerKEther, uint newUsdPerKEther);
@@ -208,10 +209,14 @@ contract DeveryPresale is ERC20Token {
     event PICOPSCertifierUpdated(address indexed oldPICOPSCertifier, address indexed newPICOPSCertifier);
     event Contributed(address indexed addr, uint ethAmount, uint ethRefund, uint usdAmount, uint contributedEth, uint contributedUsd);
 
-    function DeveryPresale(address _wallet) public ERC20Token("PREVE", "Presale EVE Tokens", 18) {
-        require(_wallet != address(0));
-        wallet = _wallet;
+    function DeveryPresale() public ERC20Token("PREVE", "Presale EVE Tokens", 18) {
+        wallet = owner;
     }
+    function setWallet(address _wallet) public onlyOwner {
+        // require(now <= START_DATE);
+        WalletUpdated(wallet, _wallet);
+        wallet = _wallet;
+    } 
     function setEthMinContribution(uint _ethMinContribution) public onlyOwner {
         // require(now <= START_DATE);
         EthMinContributionUpdated(ethMinContribution, _ethMinContribution);

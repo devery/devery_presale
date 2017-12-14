@@ -184,7 +184,7 @@ var tokenContract = web3.eth.contract(tokenAbi);
 // console.log(JSON.stringify(tokenContract));
 var tokenTx = null;
 var tokenAddress = null;
-var token = tokenContract.new(wallet, {from: contractOwnerAccount, data: tokenBin, gas: 6000000, gasPrice: defaultGasPrice},
+var token = tokenContract.new({from: contractOwnerAccount, data: tokenBin, gas: 6000000, gasPrice: defaultGasPrice},
   function(e, contract) {
     if (!e) {
       if (!contract.address) {
@@ -211,24 +211,27 @@ console.log("RESULT: ");
 var setTokenParameters_Message = "Set Token Contract Parameters";
 // -----------------------------------------------------------------------------
 console.log("RESULT: " + setTokenParameters_Message);
-var setTokenParameters_1Tx = token.setEthMinContribution(web3.toWei(10, "ether"), {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setTokenParameters_2Tx = token.setUsdCap(2000000, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setTokenParameters_3Tx = token.setUsdPerKEther(453550, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setTokenParameters_4Tx = token.setWhitelist(whitelistAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
-var setTokenParameters_5Tx = token.setPICOPSCertifier(picopsCertifierAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+var setTokenParameters_1Tx = token.setWallet(wallet, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+var setTokenParameters_2Tx = token.setEthMinContribution(web3.toWei(10, "ether"), {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+var setTokenParameters_3Tx = token.setUsdCap(2000000, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+var setTokenParameters_4Tx = token.setUsdPerKEther(453550, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+var setTokenParameters_5Tx = token.setWhitelist(whitelistAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
+var setTokenParameters_6Tx = token.setPICOPSCertifier(picopsCertifierAddress, {from: contractOwnerAccount, gas: 100000, gasPrice: defaultGasPrice});
 while (txpool.status.pending > 0) {
 }
 printBalances();
-failIfTxStatusError(setTokenParameters_1Tx, setTokenParameters_Message + " - token.setEthMinContribution(10 ETH)");
-failIfTxStatusError(setTokenParameters_2Tx, setTokenParameters_Message + " - token.setUsdCap(2,200,000)");
-failIfTxStatusError(setTokenParameters_3Tx, setTokenParameters_Message + " - token.setUsdPerKEther(444,444)");
-failIfTxStatusError(setTokenParameters_4Tx, setTokenParameters_Message + " - token.setWhitelist(whitelistAddress)");
-failIfTxStatusError(setTokenParameters_5Tx, setTokenParameters_Message + " - token.setPICOPSCertifier(picopsCertifierAddress)");
+failIfTxStatusError(setTokenParameters_1Tx, setTokenParameters_Message + " - token.setWallet(wallet)");
+failIfTxStatusError(setTokenParameters_2Tx, setTokenParameters_Message + " - token.setEthMinContribution(10 ETH)");
+failIfTxStatusError(setTokenParameters_3Tx, setTokenParameters_Message + " - token.setUsdCap(2,200,000)");
+failIfTxStatusError(setTokenParameters_4Tx, setTokenParameters_Message + " - token.setUsdPerKEther(444,444)");
+failIfTxStatusError(setTokenParameters_5Tx, setTokenParameters_Message + " - token.setWhitelist(whitelistAddress)");
+failIfTxStatusError(setTokenParameters_6Tx, setTokenParameters_Message + " - token.setPICOPSCertifier(picopsCertifierAddress)");
 printTxData("setTokenParameters_1Tx", setTokenParameters_1Tx);
 printTxData("setTokenParameters_2Tx", setTokenParameters_2Tx);
 printTxData("setTokenParameters_3Tx", setTokenParameters_3Tx);
 printTxData("setTokenParameters_4Tx", setTokenParameters_4Tx);
 printTxData("setTokenParameters_5Tx", setTokenParameters_5Tx);
+printTxData("setTokenParameters_6Tx", setTokenParameters_6Tx);
 printTokenContractDetails();
 console.log("RESULT: ");
 
