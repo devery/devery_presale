@@ -48,6 +48,7 @@ function generateSummaryJSON() {
     var contributedEvents = contract.Contributed({}, { fromBlock: fromBlock, toBlock: "latest" }).get();
     console.log("JSONSUMMARY:   \"numberOfContributions\": " + contributedEvents.length + ",");
     console.log("JSONSUMMARY:   \"contributions\": [");
+    var accounts = {};
     for (var i = 0; i < contributedEvents.length; i++) {
       var e = contributedEvents[contributedEvents.length - 1 - i];
       var separator;
@@ -56,6 +57,7 @@ function generateSummaryJSON() {
       } else {
         separator = ",";
       }
+      accounts[e.args.addr] = accounts[e.args.addr] + 1;
       var ts = eth.getBlock(e.blockNumber).timestamp;
       console.log("JSONSUMMARY:     {");
       console.log("JSONSUMMARY:       \"address\": \"" + e.args.addr + "\",");
@@ -72,6 +74,20 @@ function generateSummaryJSON() {
       console.log("JSONSUMMARY:       \"contributedEth\": " + e.args.contributedEth.shift(-18) + ",");
       console.log("JSONSUMMARY:       \"contributedUsd\": " + e.args.contributedUsd + "");
       console.log("JSONSUMMARY:     }" + separator);
+    }
+    console.log("JSONSUMMARY:   ],");
+    var accountKeys = Object.keys(accounts);
+    accountKeys.sort();
+    console.log("JSONSUMMARY:   \"numberOfAccounts\": " + accountKeys.length + ",");
+    console.log("JSONSUMMARY:   \"accounts\": [");
+    for (var i = 0; i < accountKeys.length; i++) {
+      var separator;
+      if (i == accountKeys.length - 1) {
+        separator = "";
+      } else {
+        separator = ",";
+      }
+      console.log("JSONSUMMARY:       \"" + accountKeys[i] + "\"" + separator);
     }
     console.log("JSONSUMMARY:   ]");
   }
